@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { IconTeacher, IconStudent, IconBarrier, IconFeedback, IconTechnology } from './icons';
 
@@ -58,6 +57,10 @@ const CommunicationModelsSection: React.FC = () => {
             </div>
         );
     };
+    
+    const EmitterIcon = componentDetails.emitter.icon;
+    const ReceiverIcon = componentDetails.receiver.icon;
+    const NoiseIcon = componentDetails.noise.icon;
 
     return (
         <section id="models" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#00BFA6]/5">
@@ -69,45 +72,64 @@ const CommunicationModelsSection: React.FC = () => {
 
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     {/* Interactive Diagram */}
-                    <div className="w-full max-w-lg mx-auto">
-                        <svg viewBox="0 0 300 180" className="w-full">
+                    <div className="w-full max-w-lg mx-auto p-4">
+                        <svg viewBox="0 0 400 220" className="w-full font-sans">
                             <defs>
-                                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <marker id="arrow-message" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                                     <path d="M 0 0 L 10 5 L 0 10 z" fill="#FF8C42" />
+                                </marker>
+                                <marker id="arrow-feedback" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#A0E7E5" />
                                 </marker>
                             </defs>
                             
-                            {/* Paths */}
-                            <path d="M 60 90 H 240" stroke="#FF8C42" strokeWidth="2" markerEnd="url(#arrow)" />
-                            <path d="M 240 100 C 150 150, 150 150, 60 100" stroke="#A0E7E5" strokeWidth="2" strokeDasharray="4" fill="none" markerEnd="url(#arrow)" />
-
-                            {/* Nodes */}
+                            {/* PATHS */}
+                            <path id="messagePath" d="M 80 110 Q 200 40, 320 110" stroke="#FF8C42" strokeWidth="2.5" fill="none" markerEnd="url(#arrow-message)" />
+                            <path id="feedbackPath" d="M 320 120 Q 200 190, 80 120" stroke="#A0E7E5" strokeWidth="2" strokeDasharray="5 5" fill="none" markerEnd="url(#arrow-feedback)" />
+                            
+                            {/* NODES */}
                             <g onClick={() => handleSelectComponent('emitter')} className="cursor-pointer group">
-                                <circle cx="40" cy="90" r="20" fill={selectedComponent === 'emitter' ? '#00BFA6' : 'white'} stroke="#00BFA6" strokeWidth="2" />
-                                <text x="40" y="95" textAnchor="middle" fill={selectedComponent === 'emitter' ? 'white' : '#00BFA6'} className="font-bold text-[10px] group-hover:scale-110 transition-transform">Tú</text>
-                            </g>
-                             <g onClick={() => handleSelectComponent('receiver')} className="cursor-pointer group">
-                                <circle cx="260" cy="90" r="20" fill={selectedComponent === 'receiver' ? '#00BFA6' : 'white'} stroke="#00BFA6" strokeWidth="2" />
-                                <text x="260" y="95" textAnchor="middle" fill={selectedComponent === 'receiver' ? 'white' : '#00BFA6'} className="font-bold text-[8px] group-hover:scale-110 transition-transform">Alumno</text>
-                            </g>
-
-                            {/* Labels */}
-                             <g onClick={() => handleSelectComponent('message')} className="cursor-pointer">
-                                <text x="150" y="80" textAnchor="middle" className="font-semibold text-sm fill-gray-700 hover:fill-[#FF8C42]">Mensaje</text>
-                            </g>
-                            <g onClick={() => handleSelectComponent('channel')} className="cursor-pointer">
-                                <text x="150" y="105" textAnchor="middle" className="font-light text-[10px] fill-gray-500 hover:fill-[#FF8C42]">(vía Zoom)</text>
-                            </g>
-                             <g onClick={() => handleSelectComponent('feedback')} className="cursor-pointer">
-                                <text x="150" y="135" textAnchor="middle" className="font-semibold text-sm fill-gray-700 hover:fill-[#A0E7E5]">Feedback</text>
+                                <circle cx="60" cy="115" r="28" fill={selectedComponent === 'emitter' ? '#00BFA6' : 'white'} stroke="#00BFA6" strokeWidth="2" className="transition-all" />
+                                <foreignObject x="46" y="101" width="28" height="28">
+                                    <EmitterIcon className={`w-full h-full transition-colors ${selectedComponent === 'emitter' ? 'text-white' : 'text-[#00BFA6]'}`} />
+                                </foreignObject>
+                                <text x="60" y="155" textAnchor="middle" className="font-bold text-sm fill-gray-700">Docente</text>
                             </g>
 
-                            {/* Noise */}
-                             <g onClick={() => handleSelectComponent('noise')} className="cursor-pointer">
-                                <path d="M 100 20 l 5 10 l -10 0 Z" fill="#FF8C42" />
-                                <text x="100" y="15" textAnchor="middle" className="font-semibold text-xs fill-red-500">Ruido</text>
-                                <path d="M 180 40 l 5 -10 l 10 0 Z" fill="#FF8C42" />
-                                <text x="195" y="45" textAnchor="middle" className="font-semibold text-xs fill-red-500">Ruido</text>
+                            <g onClick={() => handleSelectComponent('receiver')} className="cursor-pointer group">
+                                <circle cx="340" cy="115" r="28" fill={selectedComponent === 'receiver' ? '#00BFA6' : 'white'} stroke="#00BFA6" strokeWidth="2" className="transition-all" />
+                                <foreignObject x="326" y="101" width="28" height="28">
+                                    <ReceiverIcon className={`w-full h-full transition-colors ${selectedComponent === 'receiver' ? 'text-white' : 'text-[#00BFA6]'}`} />
+                                </foreignObject>
+                                <text x="340" y="155" textAnchor="middle" className="font-bold text-sm fill-gray-700">Estudiante</text>
+                            </g>
+
+                            {/* CLICKABLE LABELS */}
+                            <text x="200" y="60" textAnchor="middle" onClick={() => handleSelectComponent('message')} className={`font-semibold text-lg cursor-pointer transition-colors ${selectedComponent === 'message' ? 'fill-[#FF8C42]' : 'fill-gray-800'}`}>
+                                Mensaje
+                            </text>
+                            <text x="200" y="80" textAnchor="middle" onClick={() => handleSelectComponent('channel')} className={`font-medium text-sm cursor-pointer transition-colors ${selectedComponent === 'channel' ? 'fill-gray-500' : 'fill-gray-500 hover:fill-gray-800'}`}>
+                                (Canal: Plataforma Digital)
+                            </text>
+                            <text x="200" y="175" textAnchor="middle" onClick={() => handleSelectComponent('feedback')} className={`font-semibold text-lg cursor-pointer transition-colors ${selectedComponent === 'feedback' ? 'fill-[#00BFA6]' : 'fill-gray-800'}`}>
+                                Retroalimentación
+                            </text>
+
+                            {/* NOISE */}
+                            <g onClick={() => handleSelectComponent('noise')} className="cursor-pointer group">
+                                <foreignObject x="140" y="50" width="24" height="24">
+                                    <div className="transition-transform group-hover:scale-110">
+                                        <NoiseIcon className={`w-full h-full ${selectedComponent === 'noise' ? 'text-red-500' : 'text-red-400/80'}`} />
+                                    </div>
+                                </foreignObject>
+                                <foreignObject x="240" y="80" width="24" height="24">
+                                    <div className="transition-transform group-hover:scale-110" style={{ transform: 'rotate(30deg)' }}>
+                                        <NoiseIcon className={`w-full h-full ${selectedComponent === 'noise' ? 'text-red-500' : 'text-red-400/80'}`} />
+                                    </div>
+                                </foreignObject>
+                                <text x="200" y="25" textAnchor="middle" className={`font-bold text-base transition-colors ${selectedComponent === 'noise' ? 'fill-red-600' : 'fill-red-500'}`}>
+                                    Ruido
+                                </text>
                             </g>
                         </svg>
                     </div>
